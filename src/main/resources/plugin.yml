@@ -1,0 +1,4 @@
+name: RedKillerLibrary
+version: '${project.version}'
+main: org.red.library.RedKillerLibrary
+api-version: 1.16
