@@ -71,4 +71,9 @@ public class JsonUtil {
         return result;
     }
 
+    public static Object mapToObj(Map<String, Object> map) {
+        int classNumber = (int) map.get("class");
+        Object obj = map.get("value");return null;
+    }
+
 }

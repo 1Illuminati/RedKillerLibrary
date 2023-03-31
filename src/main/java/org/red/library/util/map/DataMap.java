@@ -3,16 +3,20 @@ package org.red.library.util.map;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.BoundingBox;
 
 import java.util.*;
 
-public class DataMap {
+public class DataMap implements ConfigurationSerializable {
     private Map<String, Object> map = new HashMap<>();
 
     public void copy(DataMap dataMap) {
         map = dataMap.getMap();
+    }
+    public void copy(Map<String, Object> map) {
+        this.map = map;
     }
 
     public ItemStack getItemStack(String key) {
@@ -31,30 +35,6 @@ public class DataMap {
         return (Location) this.get(key, nullValue);
     }
 
-    public byte getByte(String key) {
-        return getByte(key, (byte) 0);
-    }
-
-    public byte getByte(String key, byte nullValue) {
-        return (byte) this.get(key, nullValue);
-    }
-
-    public void addByte(String key, byte value) {
-        put(key, getByte(key) + value);
-    }
-
-    public short getShort(String key) {
-        return getShort(key, (short) 0);
-    }
-
-    public short getShort(String key, short nullValue) {
-        return (short) this.get(key, nullValue);
-    }
-
-    public void addShort(String key, short value) {
-        put(key, getShort(key) + value);
-    }
-
     public int getInt(String key) {
         return getInt(key, 0);
     }
@@ -65,18 +45,6 @@ public class DataMap {
 
     public void addInt(String key, int value) {
         put(key, getInt(key) + value);
-    }
-
-    public float getFloat(String key) {
-        return getFloat(key, 0);
-    }
-
-    public float getFloat(String key, float nullValue) {
-        return (float) this.get(key, nullValue);
-    }
-
-    public void addFloat(String key, float value) {
-        put(key, getFloat(key) + value);
     }
 
     public double getDouble(String key) {
@@ -196,11 +164,26 @@ public class DataMap {
         return map.toString();
     }
 
+    public void clear() {
+        this.map.clear();
+    }
+
     public void save() {
         throw new UnsupportedOperationException("DataMap No Supported this method plz extend and use");
     }
 
     public void load() {
         throw new UnsupportedOperationException("DataMap No Supported this method plz extend and use");
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        return map;
+    }
+
+    public static DataMap deserialize(Map<String, Object> map) {
+        DataMap dataMap = new DataMap();
+        dataMap.copy(map);
+        return dataMap;
     }
 }
