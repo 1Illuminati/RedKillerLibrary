@@ -53,12 +53,14 @@ public final class RedKillerLibrary extends JavaPlugin {
     @Override
     public void onEnable() {
         RedKillerLibrary.plugin = this;
+        this.loadDataMap();
         this.setEvent();
     }
 
     @Override
     public void onDisable() {
         NewOfflinePlayer.saveAll();
+        this.saveDataMap();
     }
 
     private void loadDataMap() {
