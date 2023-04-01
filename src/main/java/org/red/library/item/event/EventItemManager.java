@@ -1,6 +1,8 @@
 package org.red.library.item.event;
 
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -13,6 +15,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.red.library.RedKillerLibrary;
+import org.red.library.entity.player.NewPlayer;
+import org.red.library.event.RunEventItemEvent;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -37,29 +41,36 @@ public class EventItemManager {
         itemStack.setItemMeta(itemMeta);
     }
 
-    public static boolean runItemEvent(ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
+    public static void runItemEvent(NewPlayer player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
         if (itemStack == null) {
-            return false;
+            return;
         }
 
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (itemMeta == null) {
-            return false;
+            return;
         }
 
         PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
 
         if (!persistentDataContainer.has(key, PersistentDataType.STRING))
-            return false;
+            return;
 
         String code = persistentDataContainer.get(key, PersistentDataType.STRING);
 
         if (!map.containsKey(code))
-            return false;
+            return;
 
         EventItemInfo info = map.get(code);
-        return info.runEvent(act, event);
+
+        RunEventItemEvent runEventItemEvent = new RunEventItemEvent(info.eventItem, player, itemStack, act);
+        Bukkit.getPluginManager().callEvent(runEventItemEvent);
+
+        if (runEventItemEvent.isCancelled())
+            return;
+
+        info.runEvent(act, event);
     }
 
     private EventItemManager() {
@@ -100,16 +111,14 @@ public class EventItemManager {
         }
 
 
-        private boolean runEvent(EventItemAnnotation.Act act, Event event) {
+        private void runEvent(EventItemAnnotation.Act act, Event event) {
             if (!map.containsKey(act))
-                return false;
+                return;
 
             try {
                 map.get(act).invoke(this.getItemEvent(), event);
-                return true;
             } catch(Exception e) {
                 e.printStackTrace();
-                return false;
             }
         }
 

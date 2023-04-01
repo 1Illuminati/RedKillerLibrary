@@ -1,21 +1,22 @@
 package org.red.library;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.entity.Item;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.red.library.entity.player.NewPlayer;
+import org.red.library.entity.player.offline.NewOfflinePlayer;
 import org.red.library.event.listener.block.BlockBreakListener;
 import org.red.library.event.listener.block.BlockPlaceListener;
+import org.red.library.event.listener.entity.EntityDamageByEntityListener;
 import org.red.library.event.listener.inventory.InventoryClickListener;
 import org.red.library.event.listener.inventory.InventoryCloseListener;
 import org.red.library.event.listener.inventory.InventoryOpenListener;
 import org.red.library.event.listener.player.*;
 import org.red.library.io.config.ConfigFile;
-import org.red.library.io.config.TestFile;
+import org.red.library.util.map.DataMap;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public final class RedKillerLibrary extends JavaPlugin {
     private static RedKillerLibrary plugin;
@@ -24,28 +25,67 @@ public final class RedKillerLibrary extends JavaPlugin {
         return RedKillerLibrary.plugin;
     }
 
+    private static boolean debug = true;
+
     public static void sendLog(Object message) {
-        Bukkit.getConsoleSender().sendMessage("§4§l[ RedKillerLibrary ] §f" + message);
+        Bukkit.getConsoleSender().sendMessage("§c§l[ RedKillerLibrary ] §f" + message);
+    }
+
+    public static void sendDebugLog(Object message) {
+        if (debug)
+            Bukkit.getConsoleSender().sendMessage("§c§l[ RedKillerLibrary Debug ] §f" + message);
+    }
+
+    public static boolean isDebug() {
+        return debug;
+    }
+
+    public static void setDebug(boolean debug) {
+        RedKillerLibrary.debug = debug;
+    }
+
+    private static DataMap dataMap = new DataMap();
+
+    public static DataMap getDataMap() {
+        return dataMap;
     }
 
     @Override
     public void onEnable() {
         RedKillerLibrary.plugin = this;
         this.setEvent();
-        //this.fileTest();
-    }
-
-    public void fileTest() {
-        TestFile testFile = new TestFile("test", 1, 2L, 1.0, (short) 1, (byte) 1, new ItemStack(Material.AIR), new Location(Bukkit.getWorld("world"), 0, 0, 0));
-        ConfigFile<TestFile> configFile = new ConfigFile<>("test", testFile);
-        configFile.write();
-        ConfigFile<TestFile> configFile2 = new ConfigFile<>("test");
-        configFile2.read();
-        RedKillerLibrary.sendLog(configFile2.getSerializable().serialize().toString());
     }
 
     @Override
     public void onDisable() {
+        NewOfflinePlayer.saveAll();
+    }
+
+    private void loadDataMap() {
+        ConfigFile<DataMap> dataMapConfigFile = new ConfigFile<>("dataMap");
+        try {
+            dataMapConfigFile.read();
+            sendLog("Loaded server data");
+        } catch (IOException | InvalidConfigurationException e) {
+            if (e instanceof FileNotFoundException) {
+                RedKillerLibrary.sendDebugLog("§4Failed to load server data (File not found)");
+            } else {
+                RedKillerLibrary.sendLog("§4Failed to load server data");
+
+                if (RedKillerLibrary.isDebug())
+                    e.printStackTrace();
+            }
+        }
+    }
+
+    private void saveDataMap() {
+        ConfigFile<DataMap> dataMapConfigFile = new ConfigFile<>("dataMap", dataMap);
+        try {
+            dataMapConfigFile.write();
+            sendLog("Saved server data");
+        } catch (IOException e) {
+            RedKillerLibrary.sendLog("§4Failed to save server data");
+        }
     }
 
     private void registerEvent(Listener listener) {
@@ -56,6 +96,8 @@ public final class RedKillerLibrary extends JavaPlugin {
         this.registerEvent(new InventoryClickListener());
         this.registerEvent(new InventoryCloseListener());
         this.registerEvent(new InventoryOpenListener());
+
+        this.registerEvent(new EntityDamageByEntityListener());
 
         this.registerEvent(new PlayerDropItemListener());
         this.registerEvent(new PlayerInteractListener());

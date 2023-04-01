@@ -2,10 +2,15 @@ package org.red.library.entity.player.offline;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.red.library.RedKillerLibrary;
+import org.red.library.entity.player.PlayerData;
 import org.red.library.io.config.ConfigFile;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -28,12 +33,16 @@ public class NewOfflinePlayer extends OfflinePlayerObj {
         for (NewOfflinePlayer newOfflinePlayer : newOfflinePlayerMap.values()) {
             newOfflinePlayer.save();
         }
+
+        RedKillerLibrary.sendLog("Saved all player data");
     }
 
     public static void loadAll() {
         for (NewOfflinePlayer newOfflinePlayer : newOfflinePlayerMap.values()) {
             newOfflinePlayer.load();
         }
+
+        RedKillerLibrary.sendLog("Loaded all player data");
     }
 
     private final DataMap dataMap = new DataMap();
@@ -51,37 +60,37 @@ public class NewOfflinePlayer extends OfflinePlayerObj {
     }
 
     public void save() {
-        ConfigFile<NewOfflinePlayer> offlinePlayerConfigFile = new ConfigFile<>("player/" + super.getUniqueId(), this);
-        offlinePlayerConfigFile.write();
+        ConfigFile<PlayerData> dataConfigFile = new ConfigFile<>("player/" + super.getUniqueId(), new PlayerData(getDataMap(), getCoolTime()));
+        try {
+            dataConfigFile.write();
+            RedKillerLibrary.sendLog("Saved player data: " + super.getUniqueId());
+        } catch (IOException e) {
+            RedKillerLibrary.sendLog("§4Failed to save player data: " + super.getUniqueId());
+
+            if (RedKillerLibrary.isDebug())
+                e.printStackTrace();
+        }
     }
 
     public void load() {
-        ConfigFile<NewOfflinePlayer> offlinePlayerConfigFile = new ConfigFile<>("player/" + super.getUniqueId());
-        offlinePlayerConfigFile.read();
-        NewOfflinePlayer offlinePlayer = offlinePlayerConfigFile.getSerializable();
+        ConfigFile<PlayerData> dataConfigFile = new ConfigFile<>("player/" + super.getUniqueId());
+        try {
+            dataConfigFile.read();
+            PlayerData playerData = dataConfigFile.getSerializable();
 
-        if (offlinePlayer.getUniqueId() != super.getUniqueId())
-            throw new IllegalArgumentException("The UUID of the offline player is not the same as the UUID of the player being loaded.");
+            this.coolTime.copy(playerData.coolTime());
+            this.dataMap.copy(playerData.dataMap());
 
-        this.coolTime.copy(offlinePlayer.getCoolTime());
-        this.dataMap.copy(offlinePlayer.getDataMap());
-    }
+            RedKillerLibrary.sendLog("Loaded player data: " + super.getUniqueId());
+        } catch (IOException | InvalidConfigurationException e) {
+            if (e instanceof FileNotFoundException) {
+                RedKillerLibrary.sendDebugLog("§4Failed to load player data: " + super.getUniqueId() + " (File not found)");
+            } else {
+                RedKillerLibrary.sendLog("§4Failed to load player data: " + super.getUniqueId());
 
-    @Override
-    public Map<String, Object> serialize() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("dataMap", dataMap);
-        map.put("coolTime", coolTime);
-        map.put("uuid", super.getUniqueId().toString());
-
-        return map;
-    }
-
-    public static NewOfflinePlayer deserialize(Map<String, Object> map) {
-        UUID uuid = UUID.fromString(map.get("uuid").toString());
-        NewOfflinePlayer offlinePlayer = new NewOfflinePlayer(Bukkit.getPlayer(uuid));
-        offlinePlayer.dataMap.copy((DataMap) map.get("dataMap"));
-        offlinePlayer.coolTime.copy((CoolTime) map.get("coolTime"));
-        return offlinePlayer;
+                if (RedKillerLibrary.isDebug())
+                    e.printStackTrace();
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 package org.red.library.util.map;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
-import org.red.library.RedKillerLibrary;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -102,13 +101,10 @@ public class CoolTime implements ConfigurationSerializable {
 
     public static CoolTime deserialize(Map<String, Object> map) {
         CoolTime coolTime = new CoolTime();
+        map.remove("==");
 
-        RedKillerLibrary.sendLog(map.containsKey("=="));
-
-        if (map.size() > 0) {
-            for (Map.Entry<String, Object> entry : map.entrySet())
-                coolTime.map.put(entry.getKey(), Long.valueOf((String) entry.getValue()));
-        }
+        for (Map.Entry<String, Object> entry : map.entrySet())
+            coolTime.map.put(entry.getKey(), Long.valueOf((String) entry.getValue()));
 
         return coolTime;
     }
