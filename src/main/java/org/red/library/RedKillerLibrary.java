@@ -1,5 +1,7 @@
 package org.red.library;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.Listener;
@@ -44,7 +46,7 @@ public final class RedKillerLibrary extends JavaPlugin {
         RedKillerLibrary.debug = debug;
     }
 
-    private static DataMap dataMap = new DataMap();
+    private static final DataMap dataMap = new DataMap();
 
     public static DataMap getDataMap() {
         return dataMap;
@@ -64,7 +66,7 @@ public final class RedKillerLibrary extends JavaPlugin {
     }
 
     private void loadDataMap() {
-        ConfigFile<DataMap> dataMapConfigFile = new ConfigFile<>("dataMap");
+        ConfigFile<DataMap> dataMapConfigFile = new ConfigFile<>("server_dataMap");
         try {
             dataMapConfigFile.read();
             sendLog("Loaded server data");
@@ -81,7 +83,7 @@ public final class RedKillerLibrary extends JavaPlugin {
     }
 
     private void saveDataMap() {
-        ConfigFile<DataMap> dataMapConfigFile = new ConfigFile<>("dataMap", dataMap);
+        ConfigFile<DataMap> dataMapConfigFile = new ConfigFile<>("server_dataMap", dataMap);
         try {
             dataMapConfigFile.write();
             sendLog("Saved server data");
