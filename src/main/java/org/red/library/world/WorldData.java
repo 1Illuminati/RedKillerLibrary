@@ -59,8 +59,27 @@ public class WorldData {
         List<Area> areas = new ArrayList<>();
 
         for (Area area : areaMap.values()) {
+            if (location.getWorld() != world)
+                continue;
+
             if (area.contain(location))
                 areas.add(area);
+        }
+
+        return areas;
+    }
+
+    public List<Area> getAreas(Location... locations) {
+        List<Area> areas = new ArrayList<>();
+
+        for (Area area : areaMap.values()) {
+            for (Location location : locations) {
+                if (location.getWorld() != world || !area.contain(location))
+                    continue;
+
+                areas.add(area);
+                break;
+            }
         }
 
         return areas;

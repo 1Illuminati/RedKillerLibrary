@@ -6,16 +6,16 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BanItem implements ConfigurationSerializable {
+public class BanMaterial implements ConfigurationSerializable {
     private final Material material;
     private final Map<Act, Boolean> map;
 
-    public BanItem(Material material, Map<Act, Boolean> map) {
+    public BanMaterial(Material material, Map<Act, Boolean> map) {
         this.material = material;
         this.map = map;
     }
 
-    public BanItem(Material material) {
+    public BanMaterial(Material material) {
         this(material, new HashMap<>());
     }
 
@@ -42,14 +42,14 @@ public class BanItem implements ConfigurationSerializable {
         return map;
     }
 
-    public static BanItem deserialize(Map<String, Object> map) {
+    public static BanMaterial deserialize(Map<String, Object> map) {
         Material material = Material.valueOf((String) map.get("material"));
         Map<Act, Boolean> actMap = new HashMap<>();
         for (Act act : Act.values()) {
             actMap.put(act, (Boolean) map.getOrDefault(act.name(), true));
         }
 
-        return new BanItem(material, actMap);
+        return new BanMaterial(material, actMap);
     }
 
     public enum Act {

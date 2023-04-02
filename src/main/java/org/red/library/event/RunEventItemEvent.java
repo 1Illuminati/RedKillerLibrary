@@ -3,12 +3,13 @@ package org.red.library.event;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.inventory.ItemStack;
 import org.red.library.entity.player.NewPlayer;
 import org.red.library.item.event.EventItem;
 import org.red.library.item.event.EventItemAnnotation;
 
-public class RunEventItemEvent extends Event implements Cancellable {
+public class RunEventItemEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList HANDLERS_LIST = new HandlerList();
     private boolean isCancelled = false;
     private final EventItem eventItem;
@@ -17,6 +18,7 @@ public class RunEventItemEvent extends Event implements Cancellable {
     private final EventItemAnnotation.Act act;
 
     public RunEventItemEvent(EventItem eventItem, NewPlayer player, ItemStack mainHand, EventItemAnnotation.Act act) {
+        super(player);
         this.eventItem = eventItem;
         this.player = player;
         this.mainHand = mainHand;
@@ -35,8 +37,8 @@ public class RunEventItemEvent extends Event implements Cancellable {
         return eventItem;
     }
 
-    public NewPlayer getPlayer() {
-        return player;
+    public NewPlayer getNewPlayer() {
+        return this.player;
     }
 
     @Override

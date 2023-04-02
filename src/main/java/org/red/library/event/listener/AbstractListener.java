@@ -8,6 +8,7 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.world.WorldData;
 import org.red.library.world.area.Area;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractListener implements Listener {
@@ -19,6 +20,11 @@ public abstract class AbstractListener implements Listener {
 
         WorldData worldData = WorldData.getWorldData(world);
         return worldData.getAreas(location);
+    }
+
+    protected List<Area> getAreas(World world, Location... locations) {
+        WorldData worldData = WorldData.getWorldData(world);
+        return worldData.getAreas(locations);
     }
 
     protected void runAreaEvent(AreaEvent areaEvent) {
