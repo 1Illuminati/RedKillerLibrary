@@ -8,7 +8,6 @@ import org.red.library.event.area.AreaEvent;
 import org.red.library.world.WorldData;
 import org.red.library.world.area.Area;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractListener implements Listener {
@@ -29,6 +28,6 @@ public abstract class AbstractListener implements Listener {
 
     protected void runAreaEvent(AreaEvent areaEvent) {
         Bukkit.getPluginManager().callEvent(areaEvent);
-        areaEvent.getLogger().info(areaEvent.log());
+        //areaEvent.getLogger().info(areaEvent.log());
     }
 }

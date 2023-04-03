@@ -17,4 +17,5 @@ public class AsyncPlayerChatListener extends AbstractListener {
         for (Area area : super.getAreas(location))
             super.runAreaEvent(new AreaAsyncPlayerChatEvent(area, event));
     }
+
 }

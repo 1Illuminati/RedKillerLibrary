@@ -18,7 +18,7 @@ public class AreaAsyncPlayerChatEvent extends AreaEvent {
         return event;
     }
 
-    @Override
+    //@Override
     public String log() {
         return String.format("AreaAsyncPlayerChatEvent{area=%s, player=%s, message=%s}", getArea().log(),
                 getEvent().getPlayer().getName(), getEvent().getMessage());

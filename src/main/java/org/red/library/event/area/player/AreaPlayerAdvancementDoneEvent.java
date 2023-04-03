@@ -18,7 +18,7 @@ public class AreaPlayerAdvancementDoneEvent extends AreaEvent {
         return event;
     }
 
-    @Override
+    //@Override
     public String log() {
         return String.format("AreaPlayerAdvancementDoneEvent{area=%s, player=%s, advancement=%s}", getArea().log(),
                 getEvent().getPlayer().getName(), getEvent().getAdvancement().getKey());

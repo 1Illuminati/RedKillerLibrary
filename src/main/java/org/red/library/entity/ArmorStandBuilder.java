@@ -1,19 +1,22 @@
 package org.red.library.entity;
 
-import org.bukkit.Location;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
+import org.bukkit.*;
+import org.bukkit.entity.*;
+import org.bukkit.entity.memory.MemoryKey;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.EulerAngle;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.UUID;
 
 public class ArmorStandBuilder {
     private final ArmorStand armorStand;
@@ -136,6 +139,10 @@ public class ArmorStandBuilder {
         armorStand.setInvulnerable(arg0);
         return this;
     }
+    public ArmorStandBuilder setInvisible(boolean arg0) {
+        armorStand.setInvisible(arg0);
+        return this;
+    }
     @SuppressWarnings("deprecation")
     public ArmorStandBuilder setItemInHand(ItemStack arg0) {
         armorStand.setItemInHand(arg0);
@@ -254,6 +261,132 @@ public class ArmorStandBuilder {
     }
     public ArmorStandBuilder teleport(Location arg0) {
         armorStand.teleport(arg0);
+        return this;
+    }
+
+    public ArmorStandBuilder addEquipmentLock(EquipmentSlot equipmentSlot, ArmorStand.LockType lockType) {
+        armorStand.addEquipmentLock(equipmentSlot, lockType);
+        return this;
+    }
+
+    public ArmorStandBuilder removeEquipmentLock(EquipmentSlot equipmentSlot, ArmorStand.LockType lockType) {
+        armorStand.removeEquipmentLock(equipmentSlot, lockType);
+        return this;
+    }
+
+    public ArmorStandBuilder setArrowCooldown(int i) {
+        armorStand.setArrowCooldown(i);
+        return this;
+    }
+
+    public ArmorStandBuilder setArrowsInBody(int i) {
+        armorStand.setArrowsInBody(i);
+        return this;
+    }
+
+    public ArmorStandBuilder removePotionEffect(PotionEffectType potionEffectType) {
+        armorStand.removePotionEffect(potionEffectType);
+        return this;
+    }
+
+    public ArmorStandBuilder setSwimming(boolean b) {
+        armorStand.setSwimming(b);
+        return this;
+    }
+
+    public ArmorStandBuilder attack(Entity entity) {
+        armorStand.attack(entity);
+        return this;
+    }
+
+    public ArmorStandBuilder swingMainHand() {
+        armorStand.swingMainHand();
+        return this;
+    }
+
+    public ArmorStandBuilder swingOffHand() {
+        armorStand.swingOffHand();
+        return this;
+    }
+
+    public <T> ArmorStandBuilder setMemory(MemoryKey<T> memoryKey, T t) {
+        armorStand.setMemory(memoryKey, t);
+        return this;
+    }
+
+    public ArmorStandBuilder damage(double v) {
+        armorStand.damage(v);
+        return this;
+    }
+
+    public ArmorStandBuilder damage(double v, Entity entity) {
+        armorStand.damage(v, entity);
+        return this;
+    }
+
+    public ArmorStandBuilder setAbsorptionAmount(double v) {
+        armorStand.setAbsorptionAmount(v);
+        return this;
+    }
+
+    @Deprecated
+    public ArmorStandBuilder resetMaxHealth() {
+        armorStand.resetMaxHealth();
+        return this;
+    }
+
+    public ArmorStandBuilder setRotation(float v, float v1) {
+        armorStand.setRotation(v, v1);
+        return this;
+    }
+
+    public ArmorStandBuilder remove() {
+        armorStand.remove();
+        return this;
+    }
+
+    public ArmorStandBuilder setPersistent(boolean b) {
+        armorStand.setPersistent(b);
+        return this;
+    }
+
+    public ArmorStandBuilder playEffect(EntityEffect entityEffect) {
+        armorStand.playEffect(entityEffect);
+        return this;
+    }
+
+    public ArmorStandBuilder removeMetadata(String s, Plugin plugin) {
+        armorStand.removeMetadata(s, plugin);
+        return this;
+    }
+
+    public ArmorStandBuilder sendMessage(String s) {
+        armorStand.sendMessage(s);
+        return this;
+    }
+
+    public ArmorStandBuilder sendMessage(String[] strings) {
+        armorStand.sendMessage(strings);
+        return this;
+    }
+
+    public ArmorStandBuilder sendMessage(UUID uuid, String s) {
+        armorStand.sendMessage(uuid, s);
+        return this;
+    }
+
+    public ArmorStandBuilder sendMessage(UUID uuid, String[] strings) {
+        armorStand.sendMessage(uuid, strings);
+        return this;
+    }
+
+    public ArmorStandBuilder removeAttachment(PermissionAttachment permissionAttachment) {
+        armorStand.removeAttachment(permissionAttachment);
+        return this;
+    }
+
+    public ArmorStandBuilder recalculatePermissions() {
+        armorStand.recalculatePermissions();
         return this;
     }
 

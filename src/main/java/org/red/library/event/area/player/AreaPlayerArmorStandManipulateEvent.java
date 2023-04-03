@@ -18,7 +18,7 @@ public class AreaPlayerArmorStandManipulateEvent extends AreaEvent {
         return event;
     }
 
-    @Override
+    //@Override
     public String log() {
         return String.format("AreaPlayerArmorStandManipulateEvent{area=%s, player=%s, slot=%s}", getArea().log(),
                 getEvent().getPlayer().getName(), getEvent().getSlot().name());

@@ -18,7 +18,7 @@ public class AreaPlayerAnimationEvent extends AreaEvent {
         return event;
     }
 
-    @Override
+    //@Override
     public String log() {
         return String.format("AreaPlayerAnimationEvent{area=%s, player=%s, animation=%s}", getArea().log(),
                 getEvent().getPlayer().getName(), getEvent().getAnimationType().name());

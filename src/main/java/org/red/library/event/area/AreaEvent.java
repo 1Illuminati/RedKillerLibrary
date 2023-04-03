@@ -15,7 +15,7 @@ public abstract class AreaEvent extends Event {
         this.area = area;
     }
     public abstract Event getEvent();
-    public abstract String log();
+    //public abstract String log();
     public Area getArea() {
         return area;
     }
