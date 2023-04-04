@@ -19,9 +19,16 @@ import java.util.Collection;
 import java.util.UUID;
 
 public class ArmorStandBuilder {
+    private static final Location tempLoc = new Location(Bukkit.getWorlds().get(0), 0, 0, 0);
     private final ArmorStand armorStand;
+    private final Location spawnLoc;
     public ArmorStandBuilder(Location loc) {
-        this.armorStand = (ArmorStand) loc.getWorld().spawnEntity(loc, EntityType.ARMOR_STAND);
+        World world = loc.getWorld();
+        if (world == null)
+            throw new NullPointerException("world is null");
+
+        this.armorStand = (ArmorStand) world.spawnEntity(tempLoc, EntityType.ARMOR_STAND);
+        this.spawnLoc = loc;
     }
     public ArmorStandBuilder addAttachment(Plugin arg0, int arg1) {
         armorStand.addAttachment(arg0, arg1);
@@ -391,6 +398,7 @@ public class ArmorStandBuilder {
     }
 
     public ArmorStand build() {
+        this.teleport(spawnLoc);
         return this.armorStand;
     }
 }
