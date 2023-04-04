@@ -398,7 +398,7 @@ public class ArmorStandBuilder {
     }
 
     public ArmorStand build() {
-        this.teleport(spawnLoc);
+        armorStand.teleport(this.spawnLoc);
         return this.armorStand;
     }
 }
