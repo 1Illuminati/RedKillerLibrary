@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerEvent;
 import org.red.library.event.area.AreaEvent;
 import org.red.library.world.WorldData;
 import org.red.library.world.area.Area;
@@ -29,5 +30,9 @@ public abstract class AbstractListener implements Listener {
     protected void runAreaEvent(AreaEvent areaEvent) {
         Bukkit.getPluginManager().callEvent(areaEvent);
         //areaEvent.getLogger().info(areaEvent.log());
+    }
+
+    protected void runPlayerAreaEvent(PlayerEvent playerEvent, Class<? extends AreaEvent> clazz) {
+        this.runAreaEvent(clazz.newInstance());
     }
 }

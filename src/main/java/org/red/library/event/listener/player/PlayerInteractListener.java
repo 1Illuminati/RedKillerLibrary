@@ -1,5 +1,6 @@
 package org.red.library.event.listener.player;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -7,9 +8,11 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.red.library.entity.player.NewPlayer;
+import org.red.library.event.area.player.AreaPlayerInteractEvent;
 import org.red.library.event.listener.AbstractListener;
 import org.red.library.item.event.EventItemAnnotation;
 import org.red.library.item.event.EventItemManager;
+import org.red.library.world.area.Area;
 
 public class PlayerInteractListener extends AbstractListener {
     @EventHandler
@@ -19,6 +22,7 @@ public class PlayerInteractListener extends AbstractListener {
 
         Player player = event.getPlayer();
         boolean sneaking = player.isSneaking();
+        Location location = player.getLocation();
         ItemStack mainHand = player.getInventory().getItemInMainHand();
         Action action = event.getAction();
 
@@ -36,5 +40,8 @@ public class PlayerInteractListener extends AbstractListener {
 
         if (act != null)
             EventItemManager.runItemEvent(NewPlayer.getNewPlayer(player), mainHand, act, event);
+
+        for (Area area : super.getAreas(location))
+            super.runAreaEvent(new AreaPlayerInteractEvent(area, event));
     }
 }

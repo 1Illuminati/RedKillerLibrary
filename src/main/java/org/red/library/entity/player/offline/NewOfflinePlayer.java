@@ -49,6 +49,7 @@ public class NewOfflinePlayer extends OfflinePlayerObj {
     private final CoolTime coolTime = new CoolTime();
     protected NewOfflinePlayer(OfflinePlayer offlinePlayer) {
         super(offlinePlayer);
+        this.load();
     }
 
     public DataMap getDataMap() {

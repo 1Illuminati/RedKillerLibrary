@@ -12,9 +12,8 @@ import org.red.library.world.area.Area;
 public class PlayerQuitListener extends AbstractListener {
     @EventHandler
     public void event(PlayerQuitEvent event) {
-        Player player = event.getPlayer();
-        NewPlayer newPlayer = NewPlayer.getNewPlayer(player);
-        Location location = player.getLocation();
+        NewPlayer newPlayer = NewPlayer.getNewPlayer(event.getPlayer());
+        Location location = newPlayer.getLocation();
 
         for (Area area : super.getAreas(location))
             super.runAreaEvent(new AreaPlayerQuitEvent(area, event));

@@ -1,9 +1,6 @@
 package org.red.library.world.area;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.BoundingBox;
 import org.red.library.item.ban.BanMaterial;
@@ -16,13 +13,18 @@ public class RedKillerArea implements Area, ConfigurationSerializable {
     private final World world;
     private final BoundingBox boundingBox;
     private final NamespacedKey namespacedKey;
-    private RedKillerArea(String name, Location start, Location end) {
+    public RedKillerArea(String name, Location start, Location end) {
         this.world = start.getWorld();
 
         if (world == null || world != end.getWorld())
             throw new IllegalArgumentException("location world need same");
 
         this.boundingBox = BoundingBox.of(start, end);
+        this.namespacedKey = new NamespacedKey(this.world.getName(), name);
+    }
+    public RedKillerArea(String name, World world, BoundingBox box) {
+        this.world = world;
+        this.boundingBox = box;
         this.namespacedKey = new NamespacedKey(this.world.getName(), name);
     }
     @Override
@@ -92,6 +94,15 @@ public class RedKillerArea implements Area, ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        return null;
+        Map<String, Object> map = new HashMap<>();
+        map.put("box", this.boundingBox);
+        map.put("world", this.world.getName());
+        map.put("ban_material", this.banMaterialMap);
+        map.put("name", this.namespacedKey.getKey());
+        return map;
+    }
+
+    public RedKillerArea deserialize(Map<String, Object> map) {
+        return new RedKillerArea((String) map.get("name"), Bukkit.getWorld((String) map.get("world")), (BoundingBox) map.get("box"));
     }
 }
