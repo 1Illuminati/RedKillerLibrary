@@ -4,9 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
 import org.bukkit.util.BoundingBox;
-import org.red.library.item.ban.HasBanMaterial;
 
-public interface Area extends HasBanMaterial {
+public interface Area {
     BoundingBox getBoundingBox();
     World getWorld();
     NamespacedKey getKey();

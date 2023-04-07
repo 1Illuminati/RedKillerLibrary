@@ -4,11 +4,14 @@ import org.bukkit.*;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.util.BoundingBox;
 import org.red.library.item.ban.BanMaterial;
+import org.red.library.item.ban.HasBanMaterial;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-public class RedKillerArea implements Area, ConfigurationSerializable {
+public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMaterial {
     private final Map<Material, BanMaterial> banMaterialMap = new HashMap<>();
     private final World world;
     private final BoundingBox boundingBox;
@@ -38,8 +41,13 @@ public class RedKillerArea implements Area, ConfigurationSerializable {
     }
 
     @Override
-    public void setBanMaterial(BanMaterial banMaterial) {
+    public void registerBanMaterial(BanMaterial banMaterial) {
         banMaterialMap.put(banMaterial.getMaterial(), banMaterial);
+    }
+
+    @Override
+    public Collection<BanMaterial> banMaterials() {
+        return this.banMaterialMap.values();
     }
 
     @Override
