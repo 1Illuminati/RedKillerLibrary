@@ -41,7 +41,6 @@ public class PlayerInteractListener extends AbstractListener {
         if (act != null)
             EventItemManager.runItemEvent(NewPlayer.getNewPlayer(player), mainHand, act, event);
 
-        for (Area area : super.getAreas(location))
-            super.runAreaEvent(new AreaPlayerInteractEvent(area, event));
+        super.runPlayerAreaEvent(event, AreaPlayerInteractEvent.class);
     }
 }
