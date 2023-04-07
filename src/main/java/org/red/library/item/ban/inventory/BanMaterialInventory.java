@@ -13,11 +13,16 @@ import java.util.List;
 
 public class BanMaterialInventory extends CustomInventory {
     private final HasBanMaterial hasBanMaterial;
+
     public BanMaterialInventory(HasBanMaterial hasBanMaterial) {
+        this(hasBanMaterial, 0);
+    }
+    public BanMaterialInventory(HasBanMaterial hasBanMaterial, int page) {
         super(54);
         this.hasBanMaterial = hasBanMaterial;
-        int loc = 0;
-        for (BanMaterial banMaterial : hasBanMaterial.banMaterials()) {
+        List<BanMaterial> banMaterialList = hasBanMaterial.banMaterials();
+        for (int i = 0; i < 45; i++) {
+            BanMaterial banMaterial = banMaterialList.get(45 * page + i);
             Material material = banMaterial.getMaterial();
             List<String> lore = new ArrayList<>();
 
@@ -26,7 +31,7 @@ public class BanMaterialInventory extends CustomInventory {
                 lore.add("§f" + act.name() + " : " + (allow ? "§2" : "§4") + allow);
             }
 
-            this.setItem(loc, new ItemBuilder(material).setDisplayName(material.name()).setLore(lore).build());
+            this.setItem(i, new ItemBuilder(material).setDisplayName(material.name()).setLore(lore).build());
         }
     }
 

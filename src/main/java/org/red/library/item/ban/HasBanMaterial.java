@@ -2,8 +2,7 @@ package org.red.library.item.ban;
 
 import org.bukkit.Material;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.List;
 
 public interface HasBanMaterial {
     BanMaterial getBanMaterial(Material material);
@@ -14,5 +13,5 @@ public interface HasBanMaterial {
 
     boolean isAllow(Material material, BanMaterial.Act act);
 
-    Collection<BanMaterial> banMaterials();
+    List<BanMaterial> banMaterials();
 }

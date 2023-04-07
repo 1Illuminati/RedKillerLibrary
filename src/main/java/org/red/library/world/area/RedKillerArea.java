@@ -6,10 +6,7 @@ import org.bukkit.util.BoundingBox;
 import org.red.library.item.ban.BanMaterial;
 import org.red.library.item.ban.HasBanMaterial;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMaterial {
     private final Map<Material, BanMaterial> banMaterialMap = new HashMap<>();
@@ -46,8 +43,8 @@ public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMat
     }
 
     @Override
-    public Collection<BanMaterial> banMaterials() {
-        return this.banMaterialMap.values();
+    public List<BanMaterial> banMaterials() {
+        return new ArrayList<>(this.banMaterialMap.values());
     }
 
     @Override
