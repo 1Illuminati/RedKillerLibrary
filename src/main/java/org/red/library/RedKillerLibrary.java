@@ -2,8 +2,10 @@ package org.red.library;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.red.library.entity.player.PlayerData;
 import org.red.library.entity.player.offline.NewOfflinePlayer;
 import org.red.library.event.listener.block.BlockBreakListener;
 import org.red.library.event.listener.block.BlockPlaceListener;
@@ -13,7 +15,9 @@ import org.red.library.event.listener.inventory.InventoryCloseListener;
 import org.red.library.event.listener.inventory.InventoryOpenListener;
 import org.red.library.event.listener.player.*;
 import org.red.library.io.config.ConfigFile;
+import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
+import org.red.library.world.area.RedKillerArea;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -61,6 +65,13 @@ public final class RedKillerLibrary extends JavaPlugin {
     public void onDisable() {
         NewOfflinePlayer.saveAll();
         this.saveDataMap();
+    }
+
+    private void registerConfigClass() {
+        ConfigurationSerialization.registerClass(DataMap.class);
+        ConfigurationSerialization.registerClass(CoolTime.class);
+        ConfigurationSerialization.registerClass(PlayerData.class);
+        ConfigurationSerialization.registerClass(RedKillerArea.class);
     }
 
     private void loadDataMap() {
