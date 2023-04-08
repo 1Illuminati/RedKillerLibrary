@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 public @interface EventItemAnnotation {
     Act act();
 
-    public enum Act {
+    enum Act {
         LEFT_CLICK_AIR,
         SHIFT_LEFT_CLICK_AIR,
         RIGHT_CLICK_AIR,

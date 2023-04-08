@@ -14,6 +14,7 @@ public class RGameRule<T> {
     public static final RGameRule<Boolean> ATTACK = new RGameRule<>("attack", true);
     public static final RGameRule<Boolean> FISHING = new RGameRule<>("fishing", true);
     public static final RGameRule<Boolean> CHAT = new RGameRule<>("chat", true);
+    public static final RGameRule<Boolean> FALL_DAMAGE = new RGameRule<>("fall_damage", true);
     private final String key;
     private final T defaultValue;
     private RGameRule(String key, T defaultValue) {

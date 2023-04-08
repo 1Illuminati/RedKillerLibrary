@@ -28,24 +28,16 @@ public class WorldData implements HasBanMaterial, ConfigurationSerializable, Has
 
     public static WorldData getWorldData(World world) {
         return worldDataMap.computeIfAbsent(world, k -> {
-            ConfigFile<WorldData> configFile = new ConfigFile<>("world/" + world.getName());
-
-            try {
-                configFile.read();
-            } catch (IOException | InvalidConfigurationException e) {
-                if (e instanceof FileNotFoundException) {
-                    RedKillerLibrary.sendDebugLog("§4Failed to load world data: " + world.getName() + " (File not found)");
-                    return new WorldData(world);
-                } else {
-                    RedKillerLibrary.sendLog("§4Failed to load world data: " + world.getName());
-
-                    if (RedKillerLibrary.isDebug())
-                        e.printStackTrace();
-                }
-            }
-
-            return configFile.getSerializable();
+            WorldData worldData = new WorldData(world);
+            worldData.load();
+            return worldData;
         });
+    }
+
+    public static void saveAll() {
+        for (WorldData worldData : worldDataMap.values()) {
+            worldData.save();
+        }
     }
 
     private final World world;
@@ -174,5 +166,39 @@ public class WorldData implements HasBanMaterial, ConfigurationSerializable, Has
     @Override
     public <T> void setRGameRuleValue(RGameRule<T> rule, T value) {
         this.gameRuleMap.put(rule.getKey(), value);
+    }
+
+    public void load() {
+        ConfigFile<WorldData> configFile = new ConfigFile<>("world/" + world.getName());
+
+        try {
+            configFile.read();
+            WorldData worldData = configFile.getSerializable();
+            this.dataMap.copy(worldData.dataMap);
+            this.banMaterialMap.putAll(worldData.banMaterialMap);
+            this.gameRuleMap.putAll(worldData.gameRuleMap);
+        } catch (IOException | InvalidConfigurationException e) {
+            if (e instanceof FileNotFoundException) {
+                RedKillerLibrary.sendDebugLog("§4Failed to load world data: " + world.getName() + " (File not found)");
+            } else {
+                RedKillerLibrary.sendLog("§4Failed to load world data: " + world.getName());
+
+                if (RedKillerLibrary.isDebug())
+                    e.printStackTrace();
+            }
+        }
+    }
+
+    public void save() {
+        ConfigFile<WorldData> configFile = new ConfigFile<>("world/" + world.getName(), this);
+
+        try {
+            configFile.write();
+        } catch (IOException e) {
+            RedKillerLibrary.sendLog("§4Failed to save world data: " + world.getName());
+
+            if (RedKillerLibrary.isDebug())
+                e.printStackTrace();
+        }
     }
 }

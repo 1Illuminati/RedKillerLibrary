@@ -17,6 +17,7 @@ import org.red.library.event.listener.player.*;
 import org.red.library.io.config.ConfigFile;
 import org.red.library.util.map.CoolTime;
 import org.red.library.util.map.DataMap;
+import org.red.library.world.WorldData;
 import org.red.library.world.area.RedKillerArea;
 
 import java.io.FileNotFoundException;
@@ -64,6 +65,7 @@ public final class RedKillerLibrary extends JavaPlugin {
     @Override
     public void onDisable() {
         NewOfflinePlayer.saveAll();
+        WorldData.saveAll();
         this.saveDataMap();
     }
 
@@ -72,6 +74,7 @@ public final class RedKillerLibrary extends JavaPlugin {
         ConfigurationSerialization.registerClass(CoolTime.class);
         ConfigurationSerialization.registerClass(PlayerData.class);
         ConfigurationSerialization.registerClass(RedKillerArea.class);
+        ConfigurationSerialization.registerClass(WorldData.class);
     }
 
     private void loadDataMap() {
