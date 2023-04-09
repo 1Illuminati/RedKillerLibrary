@@ -10,6 +10,8 @@ import org.red.library.entity.player.offline.NewOfflinePlayer;
 import org.red.library.event.listener.block.BlockBreakListener;
 import org.red.library.event.listener.block.BlockPlaceListener;
 import org.red.library.event.listener.entity.EntityDamageByEntityListener;
+import org.red.library.event.listener.entity.EntityDamageEvent;
+import org.red.library.event.listener.entity.EntityEventListener;
 import org.red.library.event.listener.inventory.InventoryClickListener;
 import org.red.library.event.listener.inventory.InventoryCloseListener;
 import org.red.library.event.listener.inventory.InventoryOpenListener;
@@ -114,13 +116,19 @@ public final class RedKillerLibrary extends JavaPlugin {
         this.registerEvent(new InventoryOpenListener());
 
         this.registerEvent(new EntityDamageByEntityListener());
+        this.registerEvent(new EntityDamageEvent());
+        this.registerEvent(new EntityEventListener());
 
         this.registerEvent(new PlayerDropItemListener());
         this.registerEvent(new PlayerInteractListener());
-        this.registerEvent(new PlayerDropItemListener());
         this.registerEvent(new PlayerFishListener());
         this.registerEvent(new PlayerQuitListener());
         this.registerEvent(new PlayerJoinListener());
+        this.registerEvent(new AsyncPlayerChatListener());
+        this.registerEvent(new RunEventItemListener());
+        this.registerEvent(new PlayerSwapHandItemsListener());
+        this.registerEvent(new PlayerEventListener());
+        this.registerEvent(new PlayerMoveListener());
 
         this.registerEvent(new BlockBreakListener());
         this.registerEvent(new BlockPlaceListener());

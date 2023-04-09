@@ -1,6 +1,7 @@
 package org.red.library.event.listener.player;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.red.library.event.area.player.*;
 import org.red.library.event.listener.AbstractListener;
