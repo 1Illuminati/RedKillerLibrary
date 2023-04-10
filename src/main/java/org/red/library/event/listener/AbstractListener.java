@@ -46,7 +46,7 @@ public abstract class AbstractListener implements Listener {
     protected void runAreaEvent(Location location, Event event, Class<? extends AreaEvent> clazz) {
         for (Area area : getAreas(location)) {
             try {
-                AreaEvent areaEvent = clazz.getConstructor(area.getClass(), event.getClass()).newInstance(area, event);
+                AreaEvent areaEvent = clazz.getConstructor(Area.class, event.getClass()).newInstance(area, event);
                 Bukkit.getPluginManager().callEvent(areaEvent);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                      NoSuchMethodException e) {

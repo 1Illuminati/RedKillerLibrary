@@ -60,6 +60,7 @@ public final class RedKillerLibrary extends JavaPlugin {
     @Override
     public void onEnable() {
         RedKillerLibrary.plugin = this;
+        registerConfigClass();
         this.loadDataMap();
         this.setEvent();
     }

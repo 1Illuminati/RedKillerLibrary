@@ -11,6 +11,18 @@ public class AreaPlayerMoveEvent extends AreaEvent {
     private final PlayerMoveEvent event;
     private final AreaMoveAct areaMoveAct;
 
+    public AreaPlayerMoveEvent() {
+        super(null);
+        this.event = null;
+        this.areaMoveAct = null;
+    }
+
+    public AreaPlayerMoveEvent(String test) {
+        super(null);
+        this.event = null;
+        this.areaMoveAct = null;
+    }
+
     public AreaPlayerMoveEvent(Area area, PlayerMoveEvent event) {
         super(area);
         this.event = event;

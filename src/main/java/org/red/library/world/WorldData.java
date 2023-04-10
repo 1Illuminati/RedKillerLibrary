@@ -174,9 +174,13 @@ public class WorldData implements HasBanMaterial, ConfigurationSerializable, Has
         try {
             configFile.read();
             WorldData worldData = configFile.getSerializable();
-            this.dataMap.copy(worldData.dataMap);
-            this.banMaterialMap.putAll(worldData.banMaterialMap);
-            this.gameRuleMap.putAll(worldData.gameRuleMap);
+            if (worldData != null) {
+                this.dataMap.copy(worldData.dataMap);
+                this.banMaterialMap.putAll(worldData.banMaterialMap);
+                this.gameRuleMap.putAll(worldData.gameRuleMap);
+            } else {
+                RedKillerLibrary.sendDebugLog("§4world data is null: " + world.getName() + " (why)");
+            }
         } catch (IOException | InvalidConfigurationException e) {
             if (e instanceof FileNotFoundException) {
                 RedKillerLibrary.sendDebugLog("§4Failed to load world data: " + world.getName() + " (File not found)");
