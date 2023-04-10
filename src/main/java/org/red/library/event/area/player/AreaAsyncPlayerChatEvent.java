@@ -14,6 +14,10 @@ public class AreaAsyncPlayerChatEvent extends AreaEvent {
         this.event = event;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public AsyncPlayerChatEvent getEvent() {
         return event;
     }
@@ -26,10 +30,6 @@ public class AreaAsyncPlayerChatEvent extends AreaEvent {
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS_LIST;
     }
 }

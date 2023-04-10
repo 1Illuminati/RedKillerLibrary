@@ -14,6 +14,10 @@ public class AreaPlayerAnimationEvent extends AreaEvent {
         this.event = event;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public PlayerAnimationEvent getEvent() {
         return event;
     }
@@ -26,10 +30,6 @@ public class AreaPlayerAnimationEvent extends AreaEvent {
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS_LIST;
     }
 }

@@ -7,6 +7,7 @@ public class Scheduler {
     private Scheduler() {
         throw new IllegalStateException("Utility class");
     }
+
     //일정시간뒤에 작동
     public static void delayScheduler(final RunnableEx task, int startDelayTick) {
         task.setTaskId(Bukkit.getScheduler().scheduleSyncDelayedTask(RedKillerLibrary.getPlugin(), task, startDelayTick));
@@ -55,7 +56,7 @@ public class Scheduler {
 
         @Override
         public void run() {
-            if(this.repeat <= this.count) {
+            if (this.repeat <= this.count) {
                 stop();
             }
 

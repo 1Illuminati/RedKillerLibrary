@@ -19,6 +19,16 @@ public class BanMaterial implements ConfigurationSerializable {
         this(material, new HashMap<>());
     }
 
+    public static BanMaterial deserialize(Map<String, Object> map) {
+        Material material = Material.valueOf((String) map.get("material"));
+        Map<Act, Boolean> actMap = new HashMap<>();
+        for (Act act : Act.values()) {
+            actMap.put(act, (Boolean) map.getOrDefault(act.name(), true));
+        }
+
+        return new BanMaterial(material, actMap);
+    }
+
     public Material getMaterial() {
         return material;
     }
@@ -40,16 +50,6 @@ public class BanMaterial implements ConfigurationSerializable {
         }
 
         return map;
-    }
-
-    public static BanMaterial deserialize(Map<String, Object> map) {
-        Material material = Material.valueOf((String) map.get("material"));
-        Map<Act, Boolean> actMap = new HashMap<>();
-        for (Act act : Act.values()) {
-            actMap.put(act, (Boolean) map.getOrDefault(act.name(), true));
-        }
-
-        return new BanMaterial(material, actMap);
     }
 
     public enum Act {

@@ -17,6 +17,7 @@ public class BanMaterialInventory extends CustomInventory {
     public BanMaterialInventory(HasBanMaterial hasBanMaterial) {
         this(hasBanMaterial, 0);
     }
+
     public BanMaterialInventory(HasBanMaterial hasBanMaterial, int page) {
         super(54);
         this.hasBanMaterial = hasBanMaterial;

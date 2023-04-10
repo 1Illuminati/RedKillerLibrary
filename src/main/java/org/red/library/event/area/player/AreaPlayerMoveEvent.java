@@ -38,6 +38,10 @@ public class AreaPlayerMoveEvent extends AreaEvent {
         }
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public PlayerMoveEvent getEvent() {
         return event;
     }
@@ -48,10 +52,6 @@ public class AreaPlayerMoveEvent extends AreaEvent {
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS_LIST;
     }
 

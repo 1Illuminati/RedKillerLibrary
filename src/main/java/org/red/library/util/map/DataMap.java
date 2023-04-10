@@ -12,9 +12,16 @@ import java.util.*;
 public class DataMap implements ConfigurationSerializable {
     private Map<String, Object> map = new HashMap<>();
 
+    public static DataMap deserialize(Map<String, Object> map) {
+        DataMap dataMap = new DataMap();
+        dataMap.copy(map);
+        return dataMap;
+    }
+
     public void copy(DataMap dataMap) {
         map = dataMap.getMap();
     }
+
     public void copy(Map<String, Object> map) {
         this.map = map;
     }
@@ -97,8 +104,9 @@ public class DataMap implements ConfigurationSerializable {
 
         return map.get(key);
     }
+
     public <T> List<T> getList(String key) {
-        return this.getList(key,new ArrayList<>());
+        return this.getList(key, new ArrayList<>());
     }
 
     public <T> List<T> getList(String key, List<T> nullValue) {
@@ -114,7 +122,7 @@ public class DataMap implements ConfigurationSerializable {
     }
 
     public BoundingBox getBoundingBox(String key) {
-        return this.getBoundingBox(key, new BoundingBox(0,0,0,0,0,0));
+        return this.getBoundingBox(key, new BoundingBox(0, 0, 0, 0, 0, 0));
     }
 
     public BoundingBox getBoundingBox(String key, BoundingBox nullValue) {
@@ -137,9 +145,11 @@ public class DataMap implements ConfigurationSerializable {
         map.put(key, value);
         return this;
     }
+
     public void remove(String key) {
         map.remove(key);
     }
+
     public boolean containsKey(String key) {
         return map.containsKey(key);
     }
@@ -179,11 +189,5 @@ public class DataMap implements ConfigurationSerializable {
     @Override
     public Map<String, Object> serialize() {
         return map;
-    }
-
-    public static DataMap deserialize(Map<String, Object> map) {
-        DataMap dataMap = new DataMap();
-        dataMap.copy(map);
-        return dataMap;
     }
 }

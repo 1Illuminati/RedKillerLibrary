@@ -2,7 +2,6 @@ package org.red.library.item.event;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -25,6 +24,10 @@ import java.util.Map;
 public class EventItemManager {
     private static final Map<String, EventItemInfo> map = new HashMap<>();
     private static final NamespacedKey key = new NamespacedKey(RedKillerLibrary.getPlugin(), "RedKillerLibrary_EventItem");
+
+    private EventItemManager() {
+        throw new IllegalArgumentException("Utility Class");
+    }
 
     public static void registerItemEvent(EventItem eventItem) {
         String code = eventItem.getCode();
@@ -73,10 +76,6 @@ public class EventItemManager {
         info.runEvent(act, event);
     }
 
-    private EventItemManager() {
-        throw new IllegalArgumentException("Utility Class");
-    }
-
     private static class EventItemInfo {
         private final EventItem eventItem;
         private final Map<EventItemAnnotation.Act, Method> map = new HashMap<>();
@@ -117,7 +116,7 @@ public class EventItemManager {
 
             try {
                 map.get(act).invoke(this.getItemEvent(), event);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

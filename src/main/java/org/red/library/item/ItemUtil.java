@@ -16,6 +16,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a netherite tool
+     *
      * @param material the material of the item
      * @return true if the item is a netherite tool
      */
@@ -26,6 +27,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is an iron tool
+     *
      * @param material the material of the item
      * @return true if the item is an iron tool
      */
@@ -36,6 +38,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a golden tool
+     *
      * @param material the material of the item
      * @return true if the item is a golden tool
      */
@@ -46,6 +49,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a diamond tool
+     *
      * @param material the material of the item
      * @return true if the item is a diamond tool
      */
@@ -57,6 +61,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a stone tool
+     *
      * @param material the material of the item
      * @return true if the item is a stone tool
      */
@@ -67,6 +72,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a wooden tool
+     *
      * @param material the material of the item
      * @return true if the item is a wooden tool
      */
@@ -77,6 +83,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is an axe
+     *
      * @param material the material of the item
      * @return true if the item is an axe
      */
@@ -87,6 +94,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a hoe
+     *
      * @param material the material of the item
      * @return true if the item is a hoe
      */
@@ -97,16 +105,18 @@ public class ItemUtil {
 
     /**
      * Check if the item is a shovel
+     *
      * @param material the material of the item
      * @return true if the item is a shovel
      */
     public static boolean checkShovel(Material material) {
         return material == Material.IRON_SHOVEL || material == Material.GOLDEN_SHOVEL || material == Material.STONE_SHOVEL
-                || material == Material.WOODEN_SHOVEL || material == Material.DIAMOND_SHOVEL|| material == Material.NETHERITE_SHOVEL;
+                || material == Material.WOODEN_SHOVEL || material == Material.DIAMOND_SHOVEL || material == Material.NETHERITE_SHOVEL;
     }
 
     /**
      * Check if the item is a pickaxe
+     *
      * @param material the material of the item
      * @return true if the item is a pickaxe
      */
@@ -118,6 +128,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a sword
+     *
      * @param material the material of the item
      * @return true if the item is a sword
      */
@@ -128,6 +139,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is an armor
+     *
      * @param material the material of the item
      * @return true if the item is an armor
      */
@@ -146,6 +158,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a netherite armor
+     *
      * @param material the material of the item
      * @return true if the item is a netherite armor
      */
@@ -156,6 +169,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a leather armor
+     *
      * @param material the material of the item
      * @return true if the item is a leather armor
      */
@@ -166,6 +180,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a golden armor
+     *
      * @param material the material of the item
      * @return true if the item is a golden armor
      */
@@ -176,6 +191,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a diamond armor
+     *
      * @param material the material of the item
      * @return true if the item is a diamond armor
      */
@@ -186,6 +202,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a chainmail armor
+     *
      * @param material the material of the item
      * @return true if the item is a chainmail armor
      */
@@ -196,6 +213,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is an iron armor
+     *
      * @param material the material of the item
      * @return true if the item is an iron armor
      */
@@ -206,6 +224,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a helmet
+     *
      * @param material the material of the item
      * @return true if the item is a helmet
      */
@@ -217,6 +236,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a chestPlate
+     *
      * @param material the material of the item
      * @return true if the item is a chestPlate
      */
@@ -228,6 +248,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a leggings
+     *
      * @param material the material of the item
      * @return true if the item is a leggings
      */
@@ -239,6 +260,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a boots
+     *
      * @param material the material of the item
      * @return true if the item is a boots
      */
@@ -250,6 +272,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a weapon
+     *
      * @param material the material of the item
      * @return true if the item is a weapon
      */
@@ -259,6 +282,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a projectile weapon
+     *
      * @param material the material of the item
      * @return true if the item is a projectile weapon
      */
@@ -268,6 +292,7 @@ public class ItemUtil {
 
     /**
      * Check if the item is a melee weapon
+     *
      * @param material the material of the item
      * @return true if the item is a melee weapon
      */
@@ -300,6 +325,7 @@ public class ItemUtil {
     /**
      * Get the origin max damage to item
      * Does not include additional damage from enchantments
+     *
      * @param material the material of the item
      * @return the origin max damage to item
      */

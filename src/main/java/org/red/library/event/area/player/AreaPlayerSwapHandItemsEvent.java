@@ -14,16 +14,16 @@ public class AreaPlayerSwapHandItemsEvent extends AreaEvent {
         this.event = event;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public PlayerSwapHandItemsEvent getEvent() {
         return event;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS_LIST;
     }
 }

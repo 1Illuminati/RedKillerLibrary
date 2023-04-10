@@ -107,6 +107,8 @@ public class Timer {
                     playerList.clear();
                     stop();
                 }
+
+
                 keyedBossBar.setProgress(Math.round(time / maxTime * 100) * 0.01D);
             }
         }, 0, 1);

@@ -8,6 +8,16 @@ import java.util.Map;
 public class CoolTime implements ConfigurationSerializable {
     private Map<String, Long> map = new HashMap<>();
 
+    public static CoolTime deserialize(Map<String, Object> map) {
+        CoolTime coolTime = new CoolTime();
+        map.remove("==");
+
+        for (Map.Entry<String, Object> entry : map.entrySet())
+            coolTime.map.put(entry.getKey(), Long.valueOf((String) entry.getValue()));
+
+        return coolTime;
+    }
+
     public void setCoolTime(String name, int time) {
         this.setCoolTime(name, time, TimeType.SECOND);
     }
@@ -81,7 +91,7 @@ public class CoolTime implements ConfigurationSerializable {
             case SECOND:
                 time *= 1000;
             case MILLISECOND:
-            break;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
@@ -97,16 +107,6 @@ public class CoolTime implements ConfigurationSerializable {
             map.put(entry.getKey(), String.valueOf(entry.getValue()));
 
         return map;
-    }
-
-    public static CoolTime deserialize(Map<String, Object> map) {
-        CoolTime coolTime = new CoolTime();
-        map.remove("==");
-
-        for (Map.Entry<String, Object> entry : map.entrySet())
-            coolTime.map.put(entry.getKey(), Long.valueOf((String) entry.getValue()));
-
-        return coolTime;
     }
 
     public enum TimeType {

@@ -14,16 +14,16 @@ public class AreaPlayerFishEvent extends AreaEvent {
         this.event = event;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     public PlayerFishEvent getEvent() {
         return event;
     }
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS_LIST;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS_LIST;
     }
 }
