@@ -44,6 +44,14 @@ public class EventItemManager {
         itemStack.setItemMeta(itemMeta);
     }
 
+    public static void setItemInEvent(ItemStack itemStack, EventItem eventItem) {
+        String code = eventItem.getCode();
+        if (!map.containsKey(code))
+            EventItemManager.registerItemEvent(eventItem);
+
+        EventItemManager.setItemInEvent(itemStack, code);
+    }
+
     public static void runItemEvent(NewPlayer player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
         if (itemStack == null) {
             return;

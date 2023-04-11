@@ -81,6 +81,18 @@ public class Timer {
         return playerList;
     }
 
+    public void stop() {
+        Bukkit.getPluginManager().callEvent(new TimerEndEvent(Timer.this));
+        playerList.forEach(uuid -> {
+            Player player = Bukkit.getPlayer(uuid);
+            if (player == null)
+                return;
+
+            keyedBossBar.removePlayer(player);
+        });
+        playerList.clear();
+    }
+
     public void start() {
         RedKillerLibrary.sendDebugLog(playerList.size());
         for (UUID uuid : playerList) {
@@ -96,15 +108,7 @@ public class Timer {
             public void function() {
                 time+=0.05;
                 if (time >= maxTime) {
-                    Bukkit.getPluginManager().callEvent(new TimerEndEvent(Timer.this));
-                    playerList.forEach(uuid -> {
-                        Player player = Bukkit.getPlayer(uuid);
-                        if (player == null)
-                            return;
-
-                        keyedBossBar.removePlayer(player);
-                    });
-                    playerList.clear();
+                    Timer.this.stop();
                     stop();
                 }
 

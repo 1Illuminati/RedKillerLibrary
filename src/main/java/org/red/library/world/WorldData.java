@@ -119,7 +119,7 @@ public class WorldData implements HasBanMaterial, ConfigurationSerializable, Has
         return map;
     }
 
-    public WorldData deserialize(Map<String, Object> map) {
+    public static WorldData deserialize(Map<String, Object> map) {
         World world = org.bukkit.Bukkit.getWorld((String) map.get("world"));
         WorldData worldData = new WorldData(world);
         worldData.dataMap.copy((DataMap) map.get("data"));
