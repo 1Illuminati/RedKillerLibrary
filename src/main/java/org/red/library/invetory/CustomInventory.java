@@ -47,10 +47,6 @@ public class CustomInventory implements Inventory {
         return this.buttonMap.containsKey(slot);
     }
 
-    public interface Button {
-        void onClick(InventoryClickEvent event);
-    }
-
     public void onClick(InventoryClickEvent event) {
         throw new UnsupportedOperationException();
     }
@@ -62,7 +58,6 @@ public class CustomInventory implements Inventory {
     public void onOpen(InventoryOpenEvent event) {
         throw new UnsupportedOperationException();
     }
-
 
     @Override
     public int getSize() {

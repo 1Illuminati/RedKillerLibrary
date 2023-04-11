@@ -31,6 +31,7 @@ public class EventItemManager {
 
     public static void registerItemEvent(EventItem eventItem) {
         String code = eventItem.getCode();
+        RedKillerLibrary.sendDebugLog("Register EventItem: " + code);
         map.put(code, new EventItemInfo(eventItem));
     }
 
