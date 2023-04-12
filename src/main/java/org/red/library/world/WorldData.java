@@ -116,6 +116,7 @@ public class WorldData implements HasBanMaterial, ConfigurationSerializable, Has
         map.put("data", this.dataMap);
         map.put("ban_material", this.banMaterialMap);
         map.put("game_rule", this.gameRuleMap);
+
         return map;
     }
 

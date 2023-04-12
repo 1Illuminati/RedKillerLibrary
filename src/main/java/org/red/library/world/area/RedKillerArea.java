@@ -9,11 +9,43 @@ import org.red.library.item.ban.HasBanMaterial;
 import java.util.*;
 
 public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMaterial {
+    private static final Map<String, RedKillerArea> allArea = new HashMap<>();
+
+    public static RedKillerArea getArea(String name) {
+        return allArea.get(name);
+    }
+
+    public static List<RedKillerArea> getAreas(Location location) {
+        List<RedKillerArea> areaList = new ArrayList<>();
+        for (RedKillerArea area : allArea.values()) {
+            if (area.contain(location))
+                areaList.add(area);
+        }
+
+        return areaList;
+    }
+
+    public static List<RedKillerArea> getAreas(World world) {
+        List<RedKillerArea> areaList = new ArrayList<>();
+        for (RedKillerArea area : allArea.values()) {
+            if (area.getWorld().equals(world))
+                areaList.add(area);
+        }
+
+        return areaList;
+    }
+
+    public static RedKillerArea newArea(String name, Location start, Location end) {
+        RedKillerArea area = new RedKillerArea(name, start, end);
+        allArea.put(name, area);
+        return area;
+    }
+
     private final Map<Material, BanMaterial> banMaterialMap = new HashMap<>();
     private final World world;
     private final BoundingBox boundingBox;
     private final NamespacedKey namespacedKey;
-    public RedKillerArea(String name, Location start, Location end) {
+    private RedKillerArea(String name, Location start, Location end) {
         this.world = start.getWorld();
 
         if (world == null || world != end.getWorld())
@@ -22,7 +54,7 @@ public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMat
         this.boundingBox = BoundingBox.of(start, end);
         this.namespacedKey = new NamespacedKey(this.world.getName(), name);
     }
-    public RedKillerArea(String name, World world, BoundingBox box) {
+    private RedKillerArea(String name, World world, BoundingBox box) {
         this.world = world;
         this.boundingBox = box;
         this.namespacedKey = new NamespacedKey(this.world.getName(), name);
@@ -74,6 +106,9 @@ public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMat
 
     @Override
     public boolean contain(Location loc) {
+        if (!world.equals(loc.getWorld()))
+            return false;
+
         return boundingBox.contains(loc.toVector());
     }
 
@@ -107,7 +142,7 @@ public class RedKillerArea implements Area, ConfigurationSerializable, HasBanMat
         return map;
     }
 
-    public RedKillerArea deserialize(Map<String, Object> map) {
+    public static RedKillerArea deserialize(Map<String, Object> map) {
         return new RedKillerArea((String) map.get("name"), Bukkit.getWorld((String) map.get("world")), (BoundingBox) map.get("box"));
     }
 }

@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.red.library.nms.v1_16_R3.RInv1_16_R3;
+import org.red.library.nms.v1_18_R2.RInv1_18_R2;
 import org.red.library.nms.v1_19_R3.RInv1_19_R3;
 
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class CustomInventory {
 
     public CustomInventory(InventoryHolder owner, InventoryType type) {
         try {
-            this.inventory = RInvClass.getConstructor(InventoryHolder.class, InventoryType.class).newInstance(owner, type);
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, InventoryType.class, CustomInventory.class).newInstance(owner, type, this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +38,7 @@ public class CustomInventory {
 
     public CustomInventory(InventoryHolder owner, InventoryType type, String title) {
         try {
-            this.inventory = RInvClass.getConstructor(InventoryHolder.class, InventoryType.class, String.class).newInstance(owner, type, title);
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, InventoryType.class, String.class, CustomInventory.class).newInstance(owner, type, title, this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -53,7 +54,7 @@ public class CustomInventory {
 
     public CustomInventory(InventoryHolder owner, int size) {
         try {
-            this.inventory = RInvClass.getConstructor(InventoryHolder.class, int.class).newInstance(owner, size);
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, int.class, CustomInventory.class).newInstance(owner, size, this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +62,7 @@ public class CustomInventory {
 
     public CustomInventory(InventoryHolder owner, int size, String title) {
         try {
-            this.inventory = RInvClass.getConstructor(InventoryHolder.class, int.class, String.class).newInstance(owner, size, title);
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, int.class, String.class, CustomInventory.class).newInstance(owner, size, title, this);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -261,7 +262,7 @@ public class CustomInventory {
         } else if (version.contains("1.17")) {
             RInvClass = null;
         } else if (version.contains("1.18")) {
-            RInvClass = null;
+            RInvClass = RInv1_18_R2.class;
         } else if (version.contains("1.19")) {
             RInvClass = RInv1_19_R3.class;
         } else {
