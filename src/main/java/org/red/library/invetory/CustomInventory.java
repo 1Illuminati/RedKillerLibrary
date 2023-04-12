@@ -8,43 +8,71 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.red.library.nms.v1_16_R3.RInv1_16_R3;
+import org.red.library.nms.v1_19_R3.RInv1_19_R3;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public class CustomInventory implements Inventory {
-    private final Inventory inventory;
-    private final Map<Integer, Button> buttonMap;
+public class CustomInventory {
+    private static final String version = Bukkit.getVersion();
+    private static final Class<? extends RInventory> RInvClass;
+    private final RInventory inventory;
 
-    public CustomInventory(Inventory inventory) {
-        this.inventory = inventory;
-        buttonMap = new HashMap<>(inventory.getSize());
+    public CustomInventory(InventoryHolder owner, InventoryType type) {
+        try {
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, InventoryType.class).newInstance(owner, type);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public CustomInventory(String title, int size) {
-        this(Bukkit.createInventory(null, size, title));
+    public CustomInventory(InventoryHolder owner, InventoryType type, String title) {
+        try {
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, InventoryType.class, String.class).newInstance(owner, type, title);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public CustomInventory(InventoryType type) {
+        this(null, type);
+    }
+
+    public CustomInventory(InventoryType type, String title) {
+        this(null, type, title);
+    }
+
+    public CustomInventory(InventoryHolder owner, int size) {
+        try {
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, int.class).newInstance(owner, size);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public CustomInventory(InventoryHolder owner, int size, String title) {
+        try {
+            this.inventory = RInvClass.getConstructor(InventoryHolder.class, int.class, String.class).newInstance(owner, size, title);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public CustomInventory(int size) {
-        this(Bukkit.createInventory(null, size));
+        this(null, size);
     }
 
-    public void setButton(int slot, Button button) {
-        if (slot >= inventory.getSize())
-            throw new IllegalArgumentException("slot value can`t over inventory size");
-
-        this.buttonMap.put(slot, button);
-    }
-
-    public Button getButton(int slot) {
-        return this.buttonMap.get(slot);
-    }
-
-    public boolean hasButton(int slot) {
-        return this.buttonMap.containsKey(slot);
+    public CustomInventory(int size, String title) {
+        this(null, size, title);
     }
 
     public void onClick(InventoryClickEvent event) {
@@ -59,173 +87,185 @@ public class CustomInventory implements Inventory {
         throw new UnsupportedOperationException();
     }
 
-    @Override
+    public RInventory getInventory() {
+        return this.inventory;
+    }
+
+    public void setButton(int slot, Button button) {
+        getInventory().setButton(slot, button);
+    }
+
+    public Button getButton(int slot) {
+        return getInventory().getButton(slot);
+    }
+
+    public boolean hasButton(int slot) {
+        return getInventory().hasButton(slot);
+    }
+
     public int getSize() {
-        return inventory.getSize();
+        return getInventory().getSize();
     }
 
-    @Override
     public int getMaxStackSize() {
-        return inventory.getMaxStackSize();
+        return getInventory().getMaxStackSize();
     }
 
-    @Override
     public void setMaxStackSize(int i) {
-        inventory.setMaxStackSize(i);
+        getInventory().setMaxStackSize(i);
     }
 
-    @Override
+    @Nullable
     public ItemStack getItem(int i) {
-        return inventory.getItem(i);
+        return getInventory().getItem(i);
     }
 
-    @Override
-    public void setItem(int i, ItemStack itemStack) {
-        inventory.setItem(i, itemStack);
+    public void setItem(int i, @Nullable ItemStack itemStack) {
+        getInventory().setItem(i, itemStack);
     }
 
-    @Override
-    public HashMap<Integer, ItemStack> addItem(ItemStack... itemStacks) throws IllegalArgumentException {
-        return inventory.addItem(itemStacks);
+    @NotNull
+    public HashMap<Integer, ItemStack> addItem(@NotNull ItemStack... itemStacks) throws IllegalArgumentException {
+        return getInventory().addItem(itemStacks);
     }
 
-    @Override
-    public HashMap<Integer, ItemStack> removeItem(ItemStack... itemStacks) throws IllegalArgumentException {
-        return inventory.removeItem(itemStacks);
+    @NotNull
+    public HashMap<Integer, ItemStack> removeItem(@NotNull ItemStack... itemStacks) throws IllegalArgumentException {
+        return getInventory().removeItem(itemStacks);
     }
 
-    @Override
+    @NotNull
     public ItemStack[] getContents() {
-        return inventory.getContents();
+        return getInventory().getContents();
     }
 
-    @Override
-    public void setContents(ItemStack[] itemStacks) throws IllegalArgumentException {
-        inventory.setContents(itemStacks);
+    public void setContents(@NotNull ItemStack[] itemStacks) throws IllegalArgumentException {
+        getInventory().setContents(itemStacks);
     }
 
-    @Override
+    @NotNull
     public ItemStack[] getStorageContents() {
-        return inventory.getStorageContents();
+        return getInventory().getStorageContents();
     }
 
-    @Override
-    public void setStorageContents(ItemStack[] itemStacks) throws IllegalArgumentException {
-        inventory.setStorageContents(itemStacks);
+    public void setStorageContents(@NotNull ItemStack[] itemStacks) throws IllegalArgumentException {
+        getInventory().setStorageContents(itemStacks);
     }
 
-    @Override
-    public boolean contains(Material material) throws IllegalArgumentException {
-        return inventory.contains(material);
+    public boolean contains(@NotNull Material material) throws IllegalArgumentException {
+        return getInventory().contains(material);
     }
 
-    @Override
-    public boolean contains(ItemStack itemStack) {
-        return inventory.contains(itemStack);
+    @Contract("null -> false")
+    public boolean contains(@Nullable ItemStack itemStack) {
+        return getInventory().contains(itemStack);
     }
 
-    @Override
-    public boolean contains(Material material, int i) throws IllegalArgumentException {
-        return inventory.contains(material, i);
+    public boolean contains(@NotNull Material material, int i) throws IllegalArgumentException {
+        return getInventory().contains(material, i);
     }
 
-    @Override
-    public boolean contains(ItemStack itemStack, int i) {
-        return inventory.contains(itemStack, i);
+    @Contract("null, _ -> false")
+    public boolean contains(@Nullable ItemStack itemStack, int i) {
+        return getInventory().contains(itemStack, i);
     }
 
-    @Override
-    public boolean containsAtLeast(ItemStack itemStack, int i) {
-        return inventory.containsAtLeast(itemStack, i);
+    @Contract("null, _ -> false")
+    public boolean containsAtLeast(@Nullable ItemStack itemStack, int i) {
+        return getInventory().containsAtLeast(itemStack, i);
     }
 
-    @Override
-    public HashMap<Integer, ? extends ItemStack> all(Material material) throws IllegalArgumentException {
-        return inventory.all(material);
+    @NotNull
+    public HashMap<Integer, ? extends ItemStack> all(@NotNull Material material) throws IllegalArgumentException {
+        return getInventory().all(material);
     }
 
-    @Override
-    public HashMap<Integer, ? extends ItemStack> all(ItemStack itemStack) {
-        return inventory.all(itemStack);
+    @NotNull
+    public HashMap<Integer, ? extends ItemStack> all(@Nullable ItemStack itemStack) {
+        return getInventory().all(itemStack);
     }
 
-    @Override
-    public int first(Material material) throws IllegalArgumentException {
-        return inventory.first(material);
+    public int first(@NotNull Material material) throws IllegalArgumentException {
+        return getInventory().first(material);
     }
 
-    @Override
-    public int first(ItemStack itemStack) {
-        return inventory.first(itemStack);
+    public int first(@NotNull ItemStack itemStack) {
+        return getInventory().first(itemStack);
     }
 
-    @Override
     public int firstEmpty() {
-        return inventory.firstEmpty();
+        return getInventory().firstEmpty();
     }
 
-    @Override
     public boolean isEmpty() {
-        return inventory.isEmpty();
+        return getInventory().isEmpty();
     }
 
-    @Override
-    public void remove(Material material) throws IllegalArgumentException {
-        inventory.remove(material);
+    public void remove(@NotNull Material material) throws IllegalArgumentException {
+        getInventory().remove(material);
     }
 
-    @Override
-    public void remove(ItemStack itemStack) {
-        inventory.remove(itemStack);
+    public void remove(@NotNull ItemStack itemStack) {
+        getInventory().remove(itemStack);
     }
 
-    @Override
     public void clear(int i) {
-        inventory.clear(i);
+        getInventory().clear(i);
     }
 
-    @Override
     public void clear() {
-        inventory.clear();
+        getInventory().clear();
     }
 
-    @Override
+    @NotNull
     public List<HumanEntity> getViewers() {
-        return inventory.getViewers();
+        return getInventory().getViewers();
     }
 
-    @Override
+    @NotNull
     public InventoryType getType() {
-        return inventory.getType();
+        return getInventory().getType();
     }
 
-    @Override
+    @Nullable
     public InventoryHolder getHolder() {
-        return inventory.getHolder();
+        return getInventory().getHolder();
     }
 
-    @Override
+    @NotNull
     public ListIterator<ItemStack> iterator() {
-        return inventory.iterator();
+        return getInventory().iterator();
     }
 
-    @Override
+    @NotNull
     public ListIterator<ItemStack> iterator(int i) {
-        return inventory.iterator(i);
+        return getInventory().iterator(i);
     }
 
-    @Override
+    @Nullable
     public Location getLocation() {
-        return inventory.getLocation();
+        return getInventory().getLocation();
     }
 
-    @Override
     public void forEach(Consumer<? super ItemStack> action) {
-        inventory.forEach(action);
+        getInventory().forEach(action);
     }
 
-    @Override
     public Spliterator<ItemStack> spliterator() {
-        return inventory.spliterator();
+        return getInventory().spliterator();
+    }
+
+    static {
+        if (version.contains("1.16")) {
+            RInvClass = RInv1_16_R3.class;
+        } else if (version.contains("1.17")) {
+            RInvClass = null;
+        } else if (version.contains("1.18")) {
+            RInvClass = null;
+        } else if (version.contains("1.19")) {
+            RInvClass = RInv1_19_R3.class;
+        } else {
+            throw new RuntimeException("Your server version is not supported by RedKillerLibrary.");
+        }
     }
 }

@@ -7,6 +7,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryHolder;
 import org.red.library.invetory.Button;
+import org.red.library.invetory.CustomInventory;
 import org.red.library.invetory.RInventory;
 
 import java.util.HashMap;
@@ -14,20 +15,25 @@ import java.util.Map;
 
 public class RInv1_19_R3 extends CraftInventoryCustom implements RInventory {
     private final Map<Integer, Button> buttonMap = new HashMap<>();
-    public RInv1_19_R3(InventoryHolder owner, InventoryType type) {
+    private final CustomInventory customInventory;
+    public RInv1_19_R3(InventoryHolder owner, InventoryType type, CustomInventory customInventory) {
         super(owner, type);
+        this.customInventory = customInventory;
     }
 
-    public RInv1_19_R3(InventoryHolder owner, InventoryType type, String title) {
+    public RInv1_19_R3(InventoryHolder owner, InventoryType type, String title, CustomInventory customInventory) {
         super(owner, type, title);
+        this.customInventory = customInventory;
     }
 
-    public RInv1_19_R3(InventoryHolder owner, int size) {
+    public RInv1_19_R3(InventoryHolder owner, int size, CustomInventory customInventory) {
         super(owner, size);
+        this.customInventory = customInventory;
     }
 
-    public RInv1_19_R3(InventoryHolder owner, int size, String title) {
+    public RInv1_19_R3(InventoryHolder owner, int size, String title, CustomInventory customInventory) {
         super(owner, size, title);
+        this.customInventory = customInventory;
     }
 
     @Override
@@ -49,16 +55,16 @@ public class RInv1_19_R3 extends CraftInventoryCustom implements RInventory {
     }
     @Override
     public void onClick(InventoryClickEvent event) {
-
+        this.customInventory.onClick(event);
     }
 
     @Override
     public void onClose(InventoryCloseEvent event) {
-
+        this.customInventory.onClose(event);
     }
 
     @Override
     public void onOpen(InventoryOpenEvent event) {
-
+        this.customInventory.onOpen(event);
     }
 }
