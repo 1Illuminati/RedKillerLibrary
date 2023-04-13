@@ -85,5 +85,26 @@
           <artifactId>log4j-api</artifactId>
           <version>2.17.0</version>
       </dependency>
+      <dependency>
+          <groupId>org.bukkit</groupId>
+          <artifactId>1.19</artifactId>
+          <version>1.19.4-R0.1-SNAPSHOT</version>
+          <scope>system</scope>
+          <systemPath>D:\double\minecraft\server\develop 1.19.4 jdk18\bundler\versions\spigot-1.19.4-R0.1-SNAPSHOT.jar</systemPath>
+      </dependency>
+      <dependency>
+          <groupId>org.bukkit</groupId>
+          <artifactId>1.16</artifactId>
+          <version>1.16.5-R0.1-SNAPSHOT</version>
+          <scope>system</scope>
+          <systemPath>D:\double\minecraft\server\develop 1.16.5 jdk16\cache\patched_1.16.5.jar</systemPath>
+      </dependency>
+      <dependency>
+          <groupId>org.bukkit</groupId>
+          <artifactId>1.18</artifactId>
+          <version>1.18.2-R0.1-SNAPSHOT</version>
+          <scope>system</scope>
+          <systemPath>D:\double\minecraft\server\develop 1.18.2 jdk18\versions\1.18.2\paper-1.18.2.jar</systemPath>
+      </dependency>
   </dependencies>
 </project>

@@ -29,6 +29,7 @@ public class Timer {
     private final String name;
     private double time = 0;
     private double maxTime;
+    private boolean stop = false;
 
     public Timer(String name, KeyedBossBar keyedBossBar, int maxTime) {
         this.name = name;
@@ -58,6 +59,11 @@ public class Timer {
 
     public void addTime(double time) {
         this.time += time;
+
+        if (this.time > this.maxTime)
+            this.time = this.maxTime;
+        else if (this.time < 0)
+            this.time = 0;
     }
 
     public void addMaxTime(double time) {
@@ -82,15 +88,7 @@ public class Timer {
     }
 
     public void stop() {
-        Bukkit.getPluginManager().callEvent(new TimerEndEvent(Timer.this));
-        playerList.forEach(uuid -> {
-            Player player = Bukkit.getPlayer(uuid);
-            if (player == null)
-                return;
-
-            keyedBossBar.removePlayer(player);
-        });
-        playerList.clear();
+        this.stop = true;
     }
 
     public void start() {
@@ -107,8 +105,16 @@ public class Timer {
             @Override
             public void function() {
                 time+=0.05;
-                if (time >= maxTime) {
-                    Timer.this.stop();
+                if (time >= maxTime || stop) {
+                    Bukkit.getPluginManager().callEvent(new TimerEndEvent(Timer.this));
+                    playerList.forEach(uuid -> {
+                        Player player = Bukkit.getPlayer(uuid);
+                        if (player == null)
+                            return;
+
+                        keyedBossBar.removePlayer(player);
+                    });
+                    playerList.clear();
                     stop();
                 }
 
