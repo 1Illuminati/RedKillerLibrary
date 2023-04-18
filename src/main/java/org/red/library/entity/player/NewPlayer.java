@@ -36,12 +36,13 @@ public class NewPlayer extends PlayerObj {
     }
 
     public static NewPlayer getNewPlayer(Player player) {
-
         if (player.hasMetadata("NPC")) {
             return NpcPlayer.getNPCPlayer(player);
         }
 
         if (!newPlayerMap.containsKey(player.getUniqueId()))
+            newPlayerMap.put(player.getUniqueId(), new NewPlayer(player));
+        else if (!newPlayerMap.get(player.getUniqueId()).getPlayer().equals(player))
             newPlayerMap.put(player.getUniqueId(), new NewPlayer(player));
 
         return newPlayerMap.get(player.getUniqueId());
