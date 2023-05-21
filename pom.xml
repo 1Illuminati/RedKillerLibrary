@@ -54,6 +54,13 @@
 
   <repositories>
       <repository>
+          <id>red</id>
+          <url>http://red.redkiller.o-r.kr:8081/repository/maven-releases/</url>
+          <releases>
+              <enabled>true</enabled>
+          </releases>
+      </repository>
+      <repository>
           <id>spigotmc-repo</id>
           <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
       </repository>
@@ -86,25 +93,19 @@
           <version>2.17.0</version>
       </dependency>
       <dependency>
-          <groupId>org.bukkit</groupId>
-          <artifactId>1.19</artifactId>
-          <version>1.19.4-R0.1-SNAPSHOT</version>
-          <scope>system</scope>
-          <systemPath>D:\double\minecraft\server\develop 1.19.4 jdk18\bundler\versions\spigot-1.19.4-R0.1-SNAPSHOT.jar</systemPath>
+          <groupId>nms</groupId>
+          <artifactId>1.18.2</artifactId>
+          <version>388</version>
       </dependency>
       <dependency>
-          <groupId>org.bukkit</groupId>
-          <artifactId>1.16</artifactId>
-          <version>1.16.5-R0.1-SNAPSHOT</version>
-          <scope>system</scope>
-          <systemPath>D:\double\minecraft\server\develop 1.16.5 jdk16\cache\patched_1.16.5.jar</systemPath>
+          <groupId>nms</groupId>
+          <artifactId>1.16.5</artifactId>
+          <version>794</version>
       </dependency>
       <dependency>
-          <groupId>org.bukkit</groupId>
-          <artifactId>1.18</artifactId>
-          <version>1.18.2-R0.1-SNAPSHOT</version>
-          <scope>system</scope>
-          <systemPath>D:\double\minecraft\server\develop 1.18.2 jdk18\versions\1.18.2\paper-1.18.2.jar</systemPath>
+          <groupId>nms</groupId>
+          <artifactId>1.19.4</artifactId>
+          <version>518</version>
       </dependency>
   </dependencies>
 </project>

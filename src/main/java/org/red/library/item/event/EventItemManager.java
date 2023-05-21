@@ -53,6 +53,38 @@ public class EventItemManager {
         EventItemManager.setItemInEvent(itemStack, code);
     }
 
+    public static boolean hasItemInEvent(ItemStack itemStack) {
+        ItemMeta itemMeta;
+        if (itemStack == null || (itemMeta = itemStack.getItemMeta()) == null)
+            throw new NullPointerException("ItemStack is Air or Null");
+
+        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+        return persistentDataContainer.has(key, PersistentDataType.STRING);
+    }
+
+    public static EventItem getItemInEvent(ItemStack itemStack) {
+        ItemMeta itemMeta;
+        if (itemStack == null || (itemMeta = itemStack.getItemMeta()) == null)
+            throw new NullPointerException("ItemStack is Air or Null");
+
+        PersistentDataContainer persistentDataContainer = itemMeta.getPersistentDataContainer();
+        if (!persistentDataContainer.has(key, PersistentDataType.STRING))
+            return null;
+
+        String code = persistentDataContainer.get(key, PersistentDataType.STRING);
+        if (!map.containsKey(code))
+            return null;
+
+        return map.get(code).eventItem;
+    }
+
+    public static EventItem getEventItem(String code) {
+        if (!map.containsKey(code))
+            return null;
+
+        return map.get(code).eventItem;
+    }
+
     public static void runItemEvent(NewPlayer player, ItemStack itemStack, EventItemAnnotation.Act act, Event event) {
         if (itemStack == null) {
             return;

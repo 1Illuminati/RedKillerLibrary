@@ -11,6 +11,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.red.library.item.event.EventItem;
+import org.red.library.item.event.EventItemManager;
 
 import java.util.List;
 import java.util.Map;
@@ -122,6 +124,16 @@ public class ItemBuilder {
 
     public <T, Z> ItemBuilder setPersistentDataContainer(NamespacedKey key, PersistentDataType<T, Z> type, Z value) {
         persistentDataContainer.set(key, type, value);
+        return this;
+    }
+
+    public ItemBuilder setEventItem(String code) {
+        EventItemManager.setItemInEvent(this.itemStack, code);
+        return this;
+    }
+
+    public ItemBuilder setEventItem(EventItem eventItem) {
+        EventItemManager.setItemInEvent(this.itemStack, eventItem.getCode());
         return this;
     }
 
